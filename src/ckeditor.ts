@@ -61,6 +61,7 @@ function VideoUploadAdapterPlugin(editor: any) {
 }
 function AddCkeVideoControls(editor: any) {
   editor.conversion?.for('downcast')?.add((dispatcher: any) => {
+    if(!dispatcher) return;
     dispatcher?.on(
       'insert:videoBlock',
       (evt: any, data: any, conversionApi: any) => {
