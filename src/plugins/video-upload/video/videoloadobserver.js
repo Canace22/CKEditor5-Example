@@ -1,7 +1,10 @@
 import { Observer } from 'ckeditor5/src/engine';
 
 export default class VideoLoadObserver extends Observer {
-	observe( domRoot ) {
+	observe (domRoot) {
+		if(!domRoot) {
+			return;
+		}
 		this.listenTo( domRoot, 'load', ( event, domEvent ) => {
 			const domElement = domEvent.target;
 

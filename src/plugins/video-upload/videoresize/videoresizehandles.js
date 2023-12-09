@@ -32,7 +32,8 @@ export default class VideoResizeHandles extends Plugin {
 		const editor = this.editor;
 		const editingView = editor.editing.view;
 
-		editingView.addObserver( VideoLoadObserver );
+		editingView.addObserver(VideoLoadObserver);
+		if(!editingView?.document)return
 		this.listenTo( editingView.document, 'videoLoaded', ( evt, domEvent ) => {
 			if ( !domEvent.target.matches( RESIZABLE_VIDEOS_CSS_SELECTOR) ) {
 				return;
