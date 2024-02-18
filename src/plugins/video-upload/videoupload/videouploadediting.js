@@ -261,7 +261,7 @@ export default class VideoUploadEditing extends Plugin {
 
                 videoUploadElements.delete( loader.id );
             } );
-
+            
             fileRepository.destroyLoader( loader );
         }
     }

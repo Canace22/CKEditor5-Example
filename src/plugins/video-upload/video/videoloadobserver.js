@@ -19,6 +19,13 @@ export default class VideoLoadObserver extends Observer {
 		}, { useCapture: true } );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	stopObserving( domRoot ) {
+		this.stopListening( domRoot );
+	}
+
 	_fireEvents( domEvent ) {
 		if ( this.isEnabled ) {
 			this.document.fire( 'layoutChanged' );
