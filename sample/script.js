@@ -1,6 +1,12 @@
 ClassicEditor
 	.create( document.querySelector( '.editor' ), {
 		// Editor configuration.
+		simpleUpload: {
+			uploadUrl: 'http://localhost:8080/upload',
+			headers: {
+				'X-CSRF-TOKEN': 'your-csrf-token',
+			},
+		},
 		language: 'zh',
 	} )
 	.then( editor => {

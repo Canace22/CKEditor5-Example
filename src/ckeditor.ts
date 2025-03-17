@@ -47,12 +47,12 @@ import {
   VideoInsert,
   VideoUploadAdapter
 } from './plugins/video-upload/index';
-import {
-  Table,
-  TableToolbar,
-  TableProperties,
-  TableCellProperties
-} from '@ckeditor/ckeditor5-table';
+// import {
+//   Table,
+//   TableToolbar,
+//   TableProperties,
+//   TableCellProperties
+// } from '@ckeditor/ckeditor5-table';
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
 import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
 
@@ -67,6 +67,23 @@ function VideoUploadAdapterPlugin(editor: any) {
     );
   };
 }
+
+function SetDefaultImageSize(editor: any) {
+  editor.conversion.for('downcast').add((dispatcher: any) => {
+    dispatcher.on('insert:image', (evt: any, data: any, conversionApi: any) => {
+      const viewWriter = conversionApi.writer;
+      const figure = conversionApi.mapper.toViewElement(data.item);
+      
+      // 设置默认宽度为50%
+      viewWriter.setStyle('width', '50%', figure);
+      viewWriter.addClass('image_resized', figure);
+      
+      // 设置默认行内模式
+      viewWriter.addClass('image-style-inline', figure);
+    }, { priority: 'low' });
+  });
+}
+
 function AddCkeVideoControls(editor: any) {
   editor.conversion?.for('downcast')?.add((dispatcher: any) => {
     if (!dispatcher) return;
@@ -137,10 +154,10 @@ class Editor extends ClassicEditor {
     VideoStyle,
     VideoInsert,
     MediaEmbed,
-    Table,
-    TableToolbar,
-    TableProperties,
-    TableCellProperties,
+    // Table,
+    // TableToolbar,
+    // TableProperties,
+    // TableCellProperties,
     Alignment,
     Indent,
     IndentBlock
@@ -179,7 +196,36 @@ class Editor extends ClassicEditor {
         'outdent',
       ]
     },
-    extraPlugins: [VideoUploadAdapterPlugin, AddCkeVideoControls],
+    image: {
+      resizeUnit: '%' as const,
+      resizeOptions: [
+        {
+          name: 'imageResize:original',
+          value: null,
+          label: '原始大小'
+        },
+        {
+          name: 'imageResize:50',
+          value: '50',
+          label: '50%'
+        },
+        {
+          name: 'imageResize:75',
+          value: '75',
+          label: '75%'
+        }
+      ],
+      toolbar: [
+        'imageStyle:inline',
+        'imageStyle:block',
+        '|',
+        'imageResize',
+        '|',
+        'toggleImageCaption',
+        'imageTextAlternative'
+      ]
+    },
+    extraPlugins: [VideoUploadAdapterPlugin, AddCkeVideoControls, SetDefaultImageSize],
   };
 }
 
