@@ -47,6 +47,14 @@ import {
   VideoInsert,
   VideoUploadAdapter
 } from './plugins/video-upload/index';
+import {
+  Table,
+  TableToolbar,
+  TableProperties,
+  TableCellProperties
+} from '@ckeditor/ckeditor5-table';
+import { Alignment } from '@ckeditor/ckeditor5-alignment';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
 
 // You can read more about extending the build with additional plugins in the "Installing plugins" guide.
 // See https://ckeditor.com/docs/ckeditor5/latest/installation/plugins/installing-plugins.html for details.
@@ -55,13 +63,13 @@ function VideoUploadAdapterPlugin(editor: any) {
   editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
     return new VideoUploadAdapter(
       loader,
-      editor.config.get('simpleUpload')?.uploadUrl
+      editor.config.get('simpleUpload')
     );
   };
 }
 function AddCkeVideoControls(editor: any) {
   editor.conversion?.for('downcast')?.add((dispatcher: any) => {
-    if(!dispatcher) return;
+    if (!dispatcher) return;
     dispatcher.on(
       'insert:videoBlock',
       (evt: any, data: any, conversionApi: any) => {
@@ -74,9 +82,21 @@ function AddCkeVideoControls(editor: any) {
       },
       { priority: 'low' }
     );
+    dispatcher.on(
+      'insert:videoInline',
+      (evt: any, data: any, conversionApi: any) => {
+        const viewWriter = conversionApi.writer;
+        const $figure = conversionApi.mapper.toViewElement(data.item);
+        const $video = $figure.getChild(0);
+        if(!$video) return;
+        viewWriter?.setAttribute('controls', true, $video);
+        viewWriter?.setAttribute('type', 'video/mp4', $video);
+        viewWriter?.setAttribute('width', 300, $video);
+      },
+      { priority: 'low' }
+    );
   });
 }
-
 
 class Editor extends ClassicEditor {
   public static override builtinPlugins = [
@@ -116,7 +136,14 @@ class Editor extends ClassicEditor {
     VideoResize,
     VideoStyle,
     VideoInsert,
-    MediaEmbed
+    MediaEmbed,
+    Table,
+    TableToolbar,
+    TableProperties,
+    TableCellProperties,
+    Alignment,
+    Indent,
+    IndentBlock
   ];
 
   public static override defaultConfig = {
@@ -134,7 +161,7 @@ class Editor extends ClassicEditor {
         'codeBlock',
         'link',
         'outdent',
-				'indent',
+        'indent',
         'bulletedList',
         'numberedList',
         'todoList',
@@ -146,56 +173,13 @@ class Editor extends ClassicEditor {
         'blockQuote',
         'highlight',
         'videoUpload',
+        'insertTable',
+        'alignment',
+        'indent',
+        'outdent',
       ]
     },
-    extraPlugins: [VideoUploadAdapterPlugin,AddCkeVideoControls],
-    language: 'zh-cn',
-    image: {
-      toolbar: [
-        'imageTextAlternative',
-        'toggleImageCaption',
-        'imageStyle:inline',
-        'imageStyle:block',
-        'imageStyle:side'
-      ]
-    },
-    video: {
-      upload: {
-        types: ['mp4','webm','ogg','ogv','avi','wmv','mkv','mpeg','mov'],
-        allowMultipleFiles: false
-      },
-      styles: ['alignLeft', 'alignCenter', 'alignRight'],
-      // Configure the available video resize options.
-      resizeOptions: [
-        {
-          name: 'videoResize:original',
-          label: 'Original',
-          icon: 'original'
-        },
-        {
-          name: 'videoResize:50',
-          label: '50',
-          icon: 'medium'
-        },
-        {
-          name: 'videoResize:75',
-          label: '75',
-          icon: 'large'
-        }
-      ],
-
-      // You need to configure the video toolbar, too, so it shows the new style
-      // buttons as well as the resize buttons.
-      toolbar: [
-        'videoStyle:alignLeft',
-        'videoStyle:alignCenter',
-        'videoStyle:alignRight',
-        '|',
-        'videoResize:50',
-        'videoResize:75',
-        'videoResize:original'
-      ]
-    }
+    extraPlugins: [VideoUploadAdapterPlugin, AddCkeVideoControls],
   };
 }
 

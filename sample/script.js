@@ -1,6 +1,7 @@
 ClassicEditor
 	.create( document.querySelector( '.editor' ), {
 		// Editor configuration.
+		language: 'zh',
 	} )
 	.then( editor => {
 		window.editor = editor;

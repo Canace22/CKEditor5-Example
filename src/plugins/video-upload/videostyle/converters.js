@@ -36,10 +36,9 @@ export function viewToModelStyleAttribute( styles ) {
         const viewElement = data.viewItem;
         const modelVideoElement = first( data.modelRange.getItems() );
 
-        if ( !modelVideoElement ) {
+        if ( !modelVideoElement||!nonDefaultStyles[ modelVideoElement.name ] ) {
             return;
         }
-
         for ( const style of nonDefaultStyles[ modelVideoElement.name ] ) {
             if ( conversionApi.consumable.consume( viewElement, { classes: style.className } ) ) {
                 conversionApi.writer.setAttribute( 'videoStyle', style.name, modelVideoElement );

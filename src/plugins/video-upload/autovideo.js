@@ -59,7 +59,7 @@ export default class AutoVideo extends Plugin {
         }, { priority: 'high' } );
     }
 
-    _embedVideoBetweenPositions(leftPosition, rightPosition ) {
+    _embedVideoBetweenPositions (leftPosition, rightPosition) {
         const editor = this.editor;
         const urlRange = new LiveRange( leftPosition, rightPosition );
         const walker = urlRange.getWalker( { ignoreElementEnd: true } );

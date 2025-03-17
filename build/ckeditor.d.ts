@@ -19,31 +19,17 @@ import { List, ListProperties, TodoList } from '@ckeditor/ckeditor5-list';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { SimpleUploadAdapter } from '@ckeditor/ckeditor5-upload';
 import { VideoUpload, VideoToolbar, VideoInsert } from './plugins/video-upload/index';
+import { Table, TableToolbar, TableProperties, TableCellProperties } from '@ckeditor/ckeditor5-table';
+import { Alignment } from '@ckeditor/ckeditor5-alignment';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
 declare function VideoUploadAdapterPlugin(editor: any): void;
 declare class Editor extends ClassicEditor {
-    static builtinPlugins: (typeof Autoformat | typeof Bold | typeof Code | typeof Italic | typeof Strikethrough | typeof Underline | typeof BlockQuote | typeof CodeBlock | typeof Essentials | typeof FontBackgroundColor | typeof FontColor | typeof FontSize | typeof Paragraph | typeof Heading | typeof Highlight | typeof DataFilter | typeof DataSchema | typeof SimpleUploadAdapter | typeof AutoImage | typeof Image | typeof ImageCaption | typeof ImageResize | typeof ImageStyle | typeof ImageToolbar | typeof ImageUpload | typeof MediaEmbed | typeof AutoLink | typeof Link | typeof List | typeof ListProperties | typeof TodoList | typeof VideoUpload | typeof VideoInsert | typeof VideoToolbar)[];
+    static builtinPlugins: (typeof Autoformat | typeof Bold | typeof Code | typeof Italic | typeof Strikethrough | typeof Underline | typeof BlockQuote | typeof CodeBlock | typeof Essentials | typeof FontBackgroundColor | typeof FontColor | typeof FontSize | typeof Paragraph | typeof Heading | typeof Highlight | typeof DataFilter | typeof DataSchema | typeof SimpleUploadAdapter | typeof AutoImage | typeof Image | typeof ImageCaption | typeof ImageResize | typeof ImageStyle | typeof ImageToolbar | typeof ImageUpload | typeof MediaEmbed | typeof AutoLink | typeof Link | typeof List | typeof ListProperties | typeof TodoList | typeof Table | typeof TableCellProperties | typeof TableProperties | typeof TableToolbar | typeof Alignment | typeof Indent | typeof IndentBlock | typeof VideoUpload | typeof VideoInsert | typeof VideoToolbar)[];
     static defaultConfig: {
         toolbar: {
             items: string[];
         };
         extraPlugins: (typeof VideoUploadAdapterPlugin)[];
-        language: string;
-        image: {
-            toolbar: string[];
-        };
-        video: {
-            upload: {
-                types: string[];
-                allowMultipleFiles: boolean;
-            };
-            styles: string[];
-            resizeOptions: {
-                name: string;
-                label: string;
-                icon: string;
-            }[];
-            toolbar: string[];
-        };
     };
 }
 export default Editor;

@@ -15,7 +15,7 @@ import { default as VideoUpload } from './videoupload';
 import { default as VideoUploadEditing } from './videoupload/videouploadediting';
 import { default as VideoUploadProgress } from './videoupload/videouploadprogress';
 import { default as VideoUploadUI } from './videoupload/videouploadui';
-import VideoUploadAdapter from './adapter'
+import VideoUploadAdapter from './minIOAdapter';
 
 export {
   Video,
